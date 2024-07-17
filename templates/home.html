@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motion Mind - To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Motion Mind</h1>
+        <div class="task-list">
+            <ul>
+                {% for task in tasks %}
+                <li>
+                    {{ task.name }} - <span class="task-type">{{ task.type }}</span>
+                    <form method="POST" action="{{ url_for('delete_task', task_id=loop.index0) }}" class="delete-form">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <button class="add-task-btn" onclick="showAddTaskModal()">Add Task</button>
+    </div>
+
+    <div id="addTaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideAddTaskModal()">&times;</span>
+            <h2>Add New Task</h2>
+            <form method="POST" action="{{ url_for('add_task') }}">
+                <label for="task_name">Task Name:</label>
+                <input type="text" id="task_name" name="task_name" required>
+                <label for="task_type">Task Type:</label>
+                <input type="text" id="task_type" name="task_type" required>
+                <div class="modal-actions">
+                    <button type="submit">Save</button>
+                    <button type="button" onclick="hideAddTaskModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
